@@ -1,0 +1,5 @@
+error: expected integer that specifies size of bit sequence
+ --> tests/build_fail/bseq_fail_ident_expr_wrong_len.rs:5:15
+  |
+5 |     bseq!(var:wrong_len);
+  |               ^^^^^^^^^

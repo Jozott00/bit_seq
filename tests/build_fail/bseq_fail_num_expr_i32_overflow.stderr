@@ -1,0 +1,9 @@
+error: literal out of range for `i32`
+ --> tests/build_fail/bseq_fail_num_expr_i32_overflow.rs:4:19
+  |
+4 |     let _ = bseq!(0:32);
+  |                   ^
+  |
+  = note: the literal `0` does not fit into the type `i32` whose range is `-2147483648..=2147483647`
+  = help: consider using the type `u32` instead
+  = note: `#[deny(overflowing_literals)]` on by default

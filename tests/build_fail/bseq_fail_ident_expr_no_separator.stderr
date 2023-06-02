@@ -1,0 +1,5 @@
+error: expected `:`
+ --> tests/build_fail/bseq_fail_ident_expr_no_separator.rs:5:15
+  |
+5 |     bseq!(var 2);
+  |               ^

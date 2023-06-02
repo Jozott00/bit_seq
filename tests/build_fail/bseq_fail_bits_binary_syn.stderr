@@ -1,0 +1,5 @@
+error: expected bitsequence but got integer instead.
+ --> tests/build_fail/bseq_fail_bits_binary_syn.rs:3:19
+  |
+3 | fn main() { bseq!(0b101) }
+  |                   ^^^^^

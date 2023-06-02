@@ -1,0 +1,9 @@
+error: literal out of range for `u8`
+ --> tests/build_fail/bseq_fail_hex_u8_overflow.rs:4:23
+  |
+4 |     let _: u8 = bseq!(0xfff);
+  |                       ^^^^^
+  |
+  = note: the literal `0xfff` (decimal `4095`) does not fit into the type `u8` and will become `255u8`
+  = help: consider using the type `u16` instead
+  = note: `#[deny(overflowing_literals)]` on by default

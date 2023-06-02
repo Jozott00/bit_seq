@@ -1,0 +1,5 @@
+error[E0425]: cannot find value `non_exiting` in this scope
+ --> tests/build_fail/bseq_fail_ident_expr_no_var.rs:4:11
+  |
+4 |     bseq!(non_exiting:1);
+  |           ^^^^^^^^^^^ not found in this scope
