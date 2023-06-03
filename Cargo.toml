@@ -7,7 +7,7 @@ edition = "2021"
 license = "MIT"
 description = "A procedural macro for creating bit sequences."
 repository = "https://github.com/Jozott00/bit_seq"
-categories = ["macros", "encoding", "parser-implementation"]
+categories = ["encoding", "parser-implementations"]
 keywords = ["bits", "macros", "bitmask", "proc-macro", "bit-manipulation"]
 readme = "README.md"
 
