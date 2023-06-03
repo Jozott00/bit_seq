@@ -1,6 +1,6 @@
 [package]
 name = "bit_seq"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Johannes Zottele official@johannes-zottele.at"]
 edition = "2021"
 
