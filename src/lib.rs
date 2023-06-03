@@ -2,9 +2,10 @@ use proc_macro::TokenStream;
 
 use proc_macro_error::*;
 use quote::{quote, quote_spanned};
-use syn::{ExprLit, ExprPath, LitInt, parse_macro_input, Result, Token};
+use syn::{LitInt, parse_macro_input};
 use syn::__private::TokenStream2;
 use syn::spanned::Spanned;
+
 use crate::bit_seq_input::{BitSegment::{self, *}, BitSeqInput};
 
 mod bit_seq_input;
