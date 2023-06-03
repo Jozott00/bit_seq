@@ -1,3 +1,63 @@
+//! `bit_seq` is a procedural macro for generating bit sequences.
+//!
+//! # Overview
+//!
+//! This crate provides a macro, `bseq!`, which allows for the creation of bit sequences
+//! using a simple and intuitive syntax. Bit sequences can be created from raw binary values,
+//! hexadecimal values, or even variable expressions. This makes the `bit_seq` crate a useful tool for
+//! systems programming, hardware interfacing, or any application where bit manipulation is common.
+//!
+//! # Examples
+//!
+//! The following examples illustrate some of the ways `bseq!` can be used.
+//!
+//! ## Raw Bit Sequences
+//!
+//! ```
+//! use bit_seq::bseq;
+//!
+//! let t = bseq!(0110 01 0 1);
+//! assert_eq!(t, 0b0110_01_0_1);
+//! ```
+//!
+//! ## Hex Values
+//!
+//! Hexadecimal values are interpreted as 4-bit sequences.
+//!
+//! ```
+//! use bit_seq::bseq;
+//!
+//! let t = bseq!(01 0x1f);
+//! assert_eq!(t, 0b01_0001_1111);
+//! ```
+//!
+//! ## Length Expressions
+//!
+//! Length expressions take the form `<val>:<len>`, where `<len>` is the number of bits from `<val>` to be used.
+//!
+//! ```
+//! use bit_seq::bseq;
+//!
+//! let t = bseq!(3:1 0 0xf:2);
+//! assert_eq!(t, 0b1_0_11);
+//! ```
+//!
+//! ## Variable Interpolation
+//!
+//! Variable interpolation is supported for length expressions.
+//!
+//! ```
+//! use bit_seq::bseq;
+//! let var = 0xf;
+//! let t = bseq!(10 var:2);
+//! assert_eq!(t, 0b10_11);
+//! ```
+//!
+//! # Performance
+//!
+//! The `bseq!` macro compiles down to standard bit manipulation operations, meaning there is no runtime overhead to using it.
+
+
 use proc_macro::TokenStream;
 
 use proc_macro_error::*;
