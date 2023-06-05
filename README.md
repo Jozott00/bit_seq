@@ -47,6 +47,15 @@ assert_eq!(t, 0b1_0_11);
 let var = 0xf;
 let t = bseq!(10 var:2);
 assert_eq!(t, 0b10_11);
+
+// Using mixed variable types
+let var_64: u64 = 0xf;
+let var_16: u16 = 0xf;
+let t = bseq_8!(var_16:4 var_64:4);
+assert_eq!(t, 0xff);
+
+// Using unary operators 
+assert_eq!(bseq!(!0:6), 0b111111);
 ```
 
 ## Documentation
