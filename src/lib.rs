@@ -62,7 +62,7 @@ use proc_macro::TokenStream;
 
 use proc_macro_error::*;
 use quote::{quote, quote_spanned};
-use syn::{LitInt, parse_macro_input};
+use syn::{LitInt, parse_macro_input, parse_quote, Type};
 use syn::__private::TokenStream2;
 use syn::spanned::Spanned;
 
@@ -127,6 +127,160 @@ mod bit_seq_input;
 #[proc_macro]
 #[proc_macro_error]
 pub fn bseq(input: TokenStream) -> TokenStream {
+    process(input, None)
+}
+
+/// The `bseq_8` procedural macro is specifically tailored for creating 8-bit sequences.
+///
+/// It is primarily utilized when there's a need to accommodate variable types different from those
+/// provided by the macro or when working with variable-length expressions involving mixed types.
+///
+/// For instance, the following example would fail to compile due to a type mismatch:
+/// ```compile_fail
+/// use bit_seq::bseq;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u8 = bseq!(foo:5 bar:3);
+/// ```
+///
+/// The `bseq_8` macro addresses such scenarios, as demonstrated below:
+/// ```
+/// use bit_seq::bseq_8;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u8 = bseq_8!(foo:5 bar:3);
+/// ```
+///
+/// It is important to note that `bseq_8` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
+/// For a comprehensive understanding on the usage of `bseq_8`, please refer to the [`bseq`] documentation.
+#[proc_macro]
+pub fn bseq_8(input: TokenStream) -> TokenStream {
+    let ty: Type = parse_quote!(u8);
+    process(input, Some(ty))
+}
+
+/// The `bseq_16` procedural macro is specifically tailored for creating 16-bit sequences.
+///
+/// It is primarily utilized when there's a need to accommodate variable types different from those
+/// provided by the macro or when working with variable-length expressions involving mixed types.
+///
+/// For instance, the following example would fail to compile due to a type mismatch:
+/// ```compile_fail
+/// use bit_seq::bseq;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u16 = bseq!(foo:5 bar:11);
+/// ```
+///
+/// The `bseq_16` macro addresses such scenarios, as demonstrated below:
+/// ```
+/// use bit_seq::bseq_16;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u16 = bseq_16!(foo:5 bar:11);
+/// ```
+///
+/// It is important to note that `bseq_16` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
+/// For a comprehensive understanding on the usage of `bseq_16`, please refer to the [`bseq`] documentation.
+#[proc_macro]
+pub fn bseq_16(input: TokenStream) -> TokenStream {
+    let ty: Type = parse_quote!(u16);
+    process(input, Some(ty))
+}
+
+/// The `bseq_32` procedural macro is specifically tailored for creating 32-bit sequences.
+///
+/// It is primarily utilized when there's a need to accommodate variable types different from those
+/// provided by the macro or when working with variable-length expressions involving mixed types.
+///
+/// For instance, the following example would fail to compile due to a type mismatch:
+/// ```compile_fail
+/// use bit_seq::bseq;
+/// let foo: u8 = 4;
+/// let bar: u64 = 2;
+/// let t: u32 = bseq!(foo:5 bar:27);
+/// ```
+///
+/// The `bseq_32` macro addresses such scenarios, as demonstrated below:
+/// ```
+/// use bit_seq::bseq_32;
+/// let foo: u8 = 4;
+/// let bar: u64 = 2;
+/// let t: u32 = bseq_32!(foo:5 bar:27);
+/// ```
+///
+/// It is important to note that `bseq_32` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
+/// For a comprehensive understanding on the usage of `bseq_32`, please refer to the [`bseq`] documentation.
+#[proc_macro]
+pub fn bseq_32(input: TokenStream) -> TokenStream {
+    let ty: Type = parse_quote!(u32);
+    process(input, Some(ty))
+}
+
+/// The `bseq_64` procedural macro is designed for creating 64-bit sequences.
+///
+/// It is primarily utilized when dealing with variable types that are different from those
+/// provided by the macro or when working with variable-length expressions that involve mixed types.
+///
+/// The following example won't compile due to a type mismatch:
+/// ```compile_fail
+/// use bit_seq::bseq;
+/// let foo: u32 = 4;
+/// let bar: u16 = 2;
+/// let t: u64 = bseq!(foo:5 bar:59);
+/// ```
+///
+/// The `bseq_64` macro provides a solution for such cases:
+/// ```
+/// use bit_seq::bseq_64;
+/// let foo: u32 = 4;
+/// let bar: u16 = 2;
+/// let t: u64 = bseq_64!(foo:5 bar:59);
+/// ```
+///
+/// Note that `bseq_64` is essentially `bseq!(...)` with intermediate type casts. For details on how to use `bseq_64`,
+/// please refer to the [`bseq`] documentation.
+#[proc_macro]
+pub fn bseq_64(input: TokenStream) -> TokenStream {
+    let ty: Type = parse_quote!(u64);
+    process(input, Some(ty))
+}
+
+/// The `bseq_128` procedural macro is designed for creating 128-bit sequences.
+///
+/// It is primarily utilized when dealing with variable types that are different from those
+/// provided by the macro or when working with variable-length expressions that involve mixed types.
+///
+/// The following example won't compile due to a type mismatch:
+/// ```compile_fail
+/// use bit_seq::bseq;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u128 = bseq!(foo:5 bar:59);
+/// ```
+///
+/// The `bseq_128` macro provides a solution for such cases:
+/// ```
+/// use bit_seq::bseq_128;
+/// let foo: u32 = 4;
+/// let bar: u64 = 2;
+/// let t: u128 = bseq_128!(foo:5 bar:59);
+/// ```
+///
+/// Note that `bseq_128` is essentially `bseq!(...)` with intermediate type casts. For details on how to use `bseq_128`,
+/// please refer to the [`bseq`] documentation.
+#[proc_macro]
+pub fn bseq_128(input: TokenStream) -> TokenStream {
+    let ty: Type = parse_quote!(u128);
+    process(input, Some(ty))
+}
+
+/// Processes the `bseq` input stream with a specified variable type.
+///
+/// `bseq!` has variable type None \
+/// `bseq8!` has variable type Option<Type<u8>> \
+/// ...
+fn process(input: TokenStream, var_type: Option<Type>) -> TokenStream {
     // parse input
     let input = parse_macro_input!(input as BitSeqInput);
 
@@ -134,12 +288,18 @@ pub fn bseq(input: TokenStream) -> TokenStream {
     let mut bit_len = 0;
     let shifts: Vec<_> = input.segments()
         .iter().rev()
-        .map(|seg| map_segment(seg, &mut bit_len))
+        .map(|seg| map_segment(seg, &mut bit_len, &var_type))
         .collect();
 
     // combine all shift segments
     let span = proc_macro2::Span::call_site();
-    let mut macro_out = quote!(#(#shifts)|*);
+
+    let mut macro_out = if let Some(ty) = var_type {
+        quote!((#(#shifts)|*) as #ty)
+    } else {
+        quote!(#(#shifts)|*)
+    };
+
     if macro_out.is_empty() {
         // if no input provided, result is 0
         macro_out = quote_spanned!(span=> 0);
@@ -149,7 +309,7 @@ pub fn bseq(input: TokenStream) -> TokenStream {
 }
 
 
-fn map_segment(seg: &BitSegment, curr_bit_len: &mut usize) -> TokenStream2 {
+fn map_segment(seg: &BitSegment, curr_bit_len: &mut usize, expr_type: &Option<Type>) -> TokenStream2 {
     let (val, len) = match seg {
         Bits(bits) => {
             let b = bits.to_string();
@@ -164,7 +324,13 @@ fn map_segment(seg: &BitSegment, curr_bit_len: &mut usize) -> TokenStream2 {
             let mask: u128 = (1 << len) - 1;
             let mask_lit = LitInt::new(&mask.to_string(), expr.span());
             let span = expr.span();
-            let rep = quote_spanned!(span=> #expr & #mask_lit);
+
+            let rep = if let Some(ty) = expr_type {
+                quote_spanned!(span=> (#expr as #ty) & #mask_lit)
+            } else {
+                quote_spanned!(span=> #expr & #mask_lit)
+            };
+
             (rep, len)
         }
     };

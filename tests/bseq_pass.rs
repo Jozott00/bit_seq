@@ -1,4 +1,4 @@
-use bit_seq::bseq;
+use bit_seq::{bseq, bseq_128, bseq_16, bseq_32, bseq_64, bseq_8};
 
 #[test]
 fn test_bseq_bits() {
@@ -93,4 +93,51 @@ fn test_bseq_macro_mixed() {
     assert_eq!(bseq!(0x0f:4 1111), 255);
     let var = 0x10;
     assert_eq!(bseq!(10000 var:5), 528);
+}
+
+#[test]
+fn test_bseq_8() {
+    let foo: u32 = 0b10110;
+    let bar: u8 = 0b001;
+    let result: u8 = bseq_8!(foo:5 bar:3);
+    assert_eq!(result, 0b10110_001);
+}
+
+#[test]
+fn test_bseq_8_truncate() {
+    let foo: u32 = 0xffffffff;
+    let result: u32 = bseq_8!(foo:8) as u32;
+    assert_eq!(result, 0xff);
+}
+
+#[test]
+fn test_bseq_16() {
+    let foo: u32 = 0b10110;
+    let bar: u64 = 0b001;
+    let result: u16 = bseq_16!(foo:5 bar:3);
+    assert_eq!(result, 0b10110_001);
+}
+
+#[test]
+fn test_bseq_32() {
+    let foo: u16 = 0b10110;
+    let bar: u8 = 0b001;
+    let result = bseq_32!(foo:5 bar:3);
+    assert_eq!(result, 0b10110_001);
+}
+
+#[test]
+fn test_bseq_64() {
+    let foo: u128 = 0b10110;
+    let bar: u8 = 0b001;
+    let result = bseq_64!(foo:5 bar:3);
+    assert_eq!(result, 0b10110_001);
+}
+
+#[test]
+fn test_bseq_128() {
+    let foo: u16 = 0b10110;
+    let bar: u8 = 0b001;
+    let result = bseq_128!(foo:5 bar:3);
+    assert_eq!(result, 0b10110_001);
 }
