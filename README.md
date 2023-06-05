@@ -1,5 +1,5 @@
 # bit_seq
----
+
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Jozott00/bit_seq/tests.yml?style=flat-square)
 ![Crates.io](https://img.shields.io/crates/v/bit_seq?logo=rust&style=flat-square)
 [<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-bit_seq-66c2a5?style=flat-square&labelColor=555555&logo=docs.rs">](https://docs.rs/bit_seq)
