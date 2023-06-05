@@ -1,7 +1,5 @@
-use quote::{quote, ToTokens};
-use syn::{Expr, ExprLit, ExprPath, ExprUnary, LitInt, parse, Result, Token};
+use syn::{Expr, ExprLit, ExprPath, LitInt, Result, Token};
 use syn::parse::{Parse, ParseStream, Peek};
-use syn::token::{Colon, Token};
 
 pub struct BitSeqInput {
     bit_segments: Vec<BitSegment>,
