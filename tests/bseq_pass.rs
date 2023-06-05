@@ -141,3 +141,14 @@ fn test_bseq_128() {
     let result = bseq_128!(foo:5 bar:3);
     assert_eq!(result, 0b10110_001);
 }
+
+#[test]
+fn test_bseq_unary() {
+    assert_eq!(bseq!(!0:3), 0b111);
+    let var = 0;
+    assert_eq!(bseq!(!var:3), 0b111);
+
+    assert_eq!(bseq!(-1:8), 0xff);
+    let var = 1;
+    assert_eq!(bseq!(-var:8), 0xff);
+}

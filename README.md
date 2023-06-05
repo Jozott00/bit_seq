@@ -1,6 +1,7 @@
 # bit_seq
 
-bit_seq is a convenient Rust crate that provides a procedural macro for creating bit sequences. This crate simplifies the
+bit_seq is a convenient Rust crate that provides a procedural macro for creating bit sequences. This crate simplifies
+the
 generation of bit sequences, increasing readability and reducing the potential for errors. Bit sequences can be
 specified directly, via hex values, or through identifiers or integers with a specific length. It is particularly useful
 in systems programming and lower-level hardware or protocol interfacing where bit manipulation is common.
@@ -15,11 +16,10 @@ in systems programming and lower-level hardware or protocol interfacing where bi
 
 ## Usage
 
-First, add the following to your `Cargo.toml`:
+First, add the following in you project cmd-line:
 
-```toml
-[dependencies]
-bit_seq = "0.1.0"
+```bash
+cargo add bit_seq
 ```
 
 Then import the crate in your Rust file:

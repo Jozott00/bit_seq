@@ -1,11 +1,14 @@
-//! `bit_seq` is a procedural macro for generating bit sequences.
+//! `bit_seq` provides procedural macros for generating bit sequences.
 //!
 //! # Overview
 //!
-//! This crate provides a macro, `bseq!`, which allows for the creation of bit sequences
+//! This crate provides the macro [`bseq`], which allows for the creation of bit sequences
 //! using a simple and intuitive syntax. Bit sequences can be created from raw binary values,
 //! hexadecimal values, or even variable expressions. This makes the `bit_seq` crate a useful tool for
 //! systems programming, hardware interfacing, or any application where bit manipulation is common.
+//!
+//! `bit_seq` also provides [`bseq_8`], [`bseq_16`], [`bseq_32`], [`bseq_64`] and [`bseq_128`] to
+//! simply type mixing.
 //!
 //! # Examples
 //!
@@ -51,6 +54,21 @@
 //! let var = 0xf;
 //! let t = bseq!(10 var:2);
 //! assert_eq!(t, 0b10_11);
+//! ```
+//!
+//! ## Unary Operations
+//!
+//! The bseq syntax supports unary operations for length expressions. This simplifies bit sequences like
+//! `0b111111`.
+//!
+//! ```
+//! use bit_seq::bseq;
+//! // bit negation
+//! assert_eq!(bseq!(!0:6), 0b111111);
+//!
+//! // numerical negation with variable interpolation
+//! let var = 1;
+//! assert_eq!(bseq!(-var:8), 0xff);
 //! ```
 //!
 //! # Performance
@@ -117,6 +135,21 @@ mod bit_seq_input;
 /// let var = 0xf;
 /// let t = bseq!(10 var:2);
 /// assert_eq!(t, 0b10_11);
+/// ```
+///
+/// ## Unary Operations
+///
+/// The bseq syntax supports unary operations for length expressions. This simplifies bit sequences like
+/// `0b111111`.
+///
+/// ```
+/// use bit_seq::bseq;
+/// // bit negation
+/// assert_eq!(bseq!(!0:6), 0b111111);
+///
+/// // numerical negation with variable interpolation
+/// let var = 1;
+/// assert_eq!(bseq!(-var:8), 0xff);
 /// ```
 ///
 /// Note: Since the macros are compiled into common bit manipulation operations,

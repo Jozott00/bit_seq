@@ -1,5 +1,7 @@
-use syn::{ExprLit, ExprPath, LitInt, Result, Token};
-use syn::parse::{Parse, ParseStream};
+use quote::{quote, ToTokens};
+use syn::{Expr, ExprLit, ExprPath, ExprUnary, LitInt, parse, Result, Token};
+use syn::parse::{Parse, ParseStream, Peek};
+use syn::token::{Colon, Token};
 
 pub struct BitSeqInput {
     bit_segments: Vec<BitSegment>,
@@ -15,6 +17,28 @@ impl BitSeqInput {
         &self.bit_segments
     }
 
+    fn parse_length_definition(input: &ParseStream) -> Result<syn::LitInt> {
+        if !input.peek(Token![:]) {
+            return Err(input.error("expected `:`"));
+        }
+
+        input.parse::<Token![:]>()?;
+
+        if !input.peek(syn::LitInt) {
+            return Err(input.error("expected integer that specifies size of bit sequence"));
+        }
+
+        input.parse::<syn::LitInt>()
+    }
+
+    // parse unary operator to bit segment expression
+    fn parse_unary(input: &ParseStream) -> Result<BitSegment> {
+        let expr = input.parse::<Expr>()?;
+        let size = BitSeqInput::parse_length_definition(&input)?;
+        Ok(BitSegment::Expr(expr, size))
+    }
+
+    // parse ident and num expression to bit segement
     fn parse_expr(input: &ParseStream) -> Result<BitSegment> {
         let val = if input.peek(syn::Ident) {
             let ident = input.parse::<syn::Ident>()?;
@@ -32,20 +56,11 @@ impl BitSeqInput {
                 })
         };
 
-        if !input.peek(Token![:]) {
-            return Err(input.error("expected `:`"));
-        }
-
-        input.parse::<Token![:]>()?;
-
-        if !input.peek(syn::LitInt) {
-            return Err(input.error("expected integer that specifies size of bit sequence"));
-        }
-
-        let size = input.parse::<syn::LitInt>()?;
+        let size = BitSeqInput::parse_length_definition(&input)?;
         Ok(BitSegment::Expr(val, size))
     }
 
+    // parse raw bits
     fn parse_bits(input: &ParseStream) -> Result<BitSegment> {
         let num = input.parse::<syn::LitInt>()?;
         let num_string = num.to_string();
@@ -83,7 +98,12 @@ impl Parse for BitSeqInput {
         let mut bit_segments = Vec::new();
 
         while !input.is_empty() {
-            if input.peek(syn::Ident) || (input.peek(syn::LitInt) && input.peek2(Token![:])) {
+            if peek_expr_with_token(|expr| matches!(expr, Expr::Unary(_)), Token![:], input) {
+                let segment = BitSeqInput::parse_unary(&input)?;
+                bit_segments.push(segment);
+            } else if input.peek(syn::Ident)
+                || (input.peek(syn::LitInt) && input.peek2(Token![:]))
+            {
                 let segment = BitSeqInput::parse_expr(&input)?;
                 bit_segments.push(segment);
             } else if input.peek(syn::LitInt) {
@@ -100,4 +120,15 @@ impl Parse for BitSeqInput {
             bit_segments,
         })
     }
+}
+
+// Helper
+fn peek_expr_with_token<T: Peek>(check: fn(Expr) -> bool, token: T, input: ParseStream) -> bool {
+    let forked = input.fork();
+    let expr_check = match forked.parse::<Expr>() {
+        Ok(expr) => check(expr),
+        Err(_) => false,
+    };
+
+    expr_check && forked.peek(token)
 }
