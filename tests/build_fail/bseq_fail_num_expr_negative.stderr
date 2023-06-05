@@ -1,5 +1,0 @@
-error: negative numbers are not allowed
- --> tests/build_fail/bseq_fail_num_expr_negative.rs:4:11
-  |
-4 |     bseq!(-0:0);
-  |           ^
