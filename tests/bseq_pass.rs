@@ -124,6 +124,11 @@ fn test_bseq_32() {
     let bar: u8 = 0b001;
     let result = bseq_32!(foo:5 bar:3);
     assert_eq!(result, 0b10110_001);
+
+    let i: i32 = -262144;
+    let o1: u8 = 0;
+    let result = bseq_32!(0101010 o1:1 i:17);
+    assert_eq!(result, 0b101010_000000000000000000)
 }
 
 #[test]

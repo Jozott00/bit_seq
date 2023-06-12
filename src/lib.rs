@@ -2,12 +2,12 @@
 //!
 //! # Overview
 //!
-//! This crate provides the macro [`bseq`], which allows for the creation of bit sequences
+//! This crate provides the macro [`bseq!`](bseq!), which allows for the creation of bit sequences
 //! using a simple and intuitive syntax. Bit sequences can be created from raw binary values,
 //! hexadecimal values, or even variable expressions. This makes the `bit_seq` crate a useful tool for
 //! systems programming, hardware interfacing, or any application where bit manipulation is common.
 //!
-//! `bit_seq` also provides [`bseq_8`], [`bseq_16`], [`bseq_32`], [`bseq_64`] and [`bseq_128`] to
+//! `bit_seq` also provides [`bseq_8!`](bseq_8!), [`bseq_16!`](bseq_16!), [`bseq_32!`](bseq_32!), [`bseq_64!`](bseq_64!) and [`bseq_128!`](bseq_128!) to
 //! simply type mixing.
 //!
 //! # Examples
@@ -185,7 +185,7 @@ pub fn bseq(input: TokenStream) -> TokenStream {
 /// ```
 ///
 /// It is important to note that `bseq_8` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
-/// For a comprehensive understanding on the usage of `bseq_8`, please refer to the [`bseq`] documentation.
+/// For a comprehensive understanding on the usage of `bseq_8`, please refer to the [`bseq!`](bseq!) documentation.
 #[proc_macro]
 pub fn bseq_8(input: TokenStream) -> TokenStream {
     let ty: Type = parse_quote!(u8);
@@ -214,7 +214,7 @@ pub fn bseq_8(input: TokenStream) -> TokenStream {
 /// ```
 ///
 /// It is important to note that `bseq_16` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
-/// For a comprehensive understanding on the usage of `bseq_16`, please refer to the [`bseq`] documentation.
+/// For a comprehensive understanding on the usage of `bseq_16`, please refer to the [`bseq!`](bseq!) documentation.
 #[proc_macro]
 pub fn bseq_16(input: TokenStream) -> TokenStream {
     let ty: Type = parse_quote!(u16);
@@ -243,7 +243,7 @@ pub fn bseq_16(input: TokenStream) -> TokenStream {
 /// ```
 ///
 /// It is important to note that `bseq_32` effectively performs as `bseq!(...)`, albeit with intermediate type casts.
-/// For a comprehensive understanding on the usage of `bseq_32`, please refer to the [`bseq`] documentation.
+/// For a comprehensive understanding on the usage of `bseq_32`, please refer to the [`bseq!`](bseq!) documentation.
 #[proc_macro]
 pub fn bseq_32(input: TokenStream) -> TokenStream {
     let ty: Type = parse_quote!(u32);
@@ -272,7 +272,7 @@ pub fn bseq_32(input: TokenStream) -> TokenStream {
 /// ```
 ///
 /// Note that `bseq_64` is essentially `bseq!(...)` with intermediate type casts. For details on how to use `bseq_64`,
-/// please refer to the [`bseq`] documentation.
+/// please refer to the [`bseq!`](bseq!) documentation.
 #[proc_macro]
 pub fn bseq_64(input: TokenStream) -> TokenStream {
     let ty: Type = parse_quote!(u64);
@@ -301,7 +301,7 @@ pub fn bseq_64(input: TokenStream) -> TokenStream {
 /// ```
 ///
 /// Note that `bseq_128` is essentially `bseq!(...)` with intermediate type casts. For details on how to use `bseq_128`,
-/// please refer to the [`bseq`] documentation.
+/// please refer to the [`bseq!`](bseq!) documentation.
 #[proc_macro]
 pub fn bseq_128(input: TokenStream) -> TokenStream {
     let ty: Type = parse_quote!(u128);
